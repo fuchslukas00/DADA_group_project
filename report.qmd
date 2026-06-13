@@ -1,0 +1,102 @@
+---
+title: "Estimation of forced climate change from historical climate
+simulations using ridge regression and boosted trees"
+subtitle: "Group project for the course Introduction to Advanced Data Analytics"
+format: 
+  pdf:
+    fig-format: png
+    number-sections: true
+    toc: true
+author:
+  - "Niklas (xxxx)"
+  - "Lukas (xxxx)"
+  - "Nina Preußler (3795721)"
+bibliography: references.bib
+csl: https://www.zotero.org/styles/apa # citation style
+---
+
+{{< pagebreak >}}
+
+# Data and problem description
+
+**Question 1.a: What is the dataset and the prediction problem about scientifically?**
+
+cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
+
+**Question 1.b: What’s the data source and what does that tell you about the type of the data?**
+
+# Methodological background
+
+## Ridge regression
+
+**Question 2.1.a: What is the key idea (that is, theoretical basis) behind your method?**
+
+**Question 2.1.b: In which circumstances is it advisable to apply your method?**
+
+**Question 2.1.c: In which cases may your method fail?**
+
+**Question 2.1.d: How does your method guard against overfitting?**
+
+**Question 2.1.e: Which are the tuning parameters of your method?**
+
+## Boosted trees
+
+**Question 2.2.a: What is the key idea (that is, theoretical basis) behind your method?**
+
+**Question 2.2.b: In which circumstances is it advisable to apply your method?**
+
+**Question 2.2.c: In which cases may your method fail?**
+
+**Question 2.2.d: How does your method guard against overfitting?**
+
+**Question 2.2.e: Which are the tuning parameters of your method?**
+
+# Model set-up and tuning
+
+## Provided preprocessing
+
+**Question 3.1.a: Which data-processing steps have been included in the basic setup provided for your dataset?**
+
+## Ridge regression
+
+**Question 3.2.a: How did you setup the predictor variables for the model? Suggest at least two different setups/combinations of explanatory variables/features that you consider. Argue for the specific choices.**
+
+**Question 3.2.b: Which hyperparameter(s) do you optimize?**
+
+**Question 3.2.c: Describe your tuning procedure: How was data split (CV, train/test-split), and why did you choose this splitting? Consider the special characteristics of your data set.**
+
+**Question 3.2.d: Which setup did perform best? Of this setup, what where the best performing hyperparameter values?**
+
+**Question 3.2.e: Briefly discuss possible reasons for the good performance of the best setup.**
+
+## Boosted trees
+
+**Question 3.3.a: How did you setup the predictor variables for the model? Suggest at least two different setups/combinations of explanatory variables/features that you consider. Argue for the specific choices.**
+
+**Question 3.3.b: Which hyperparameter(s) do you optimize?**
+
+**Question 3.3.c: Description of the tuning procedure: How was data split (CV, train/test-split), and why did you choose this splitting? Consider the special characteristics of your data set from atmospheric and climate research.**
+
+**Question 3.3.d: Which setup did perform best? Of this setup, what where the best performing hyperparameter values?**
+
+**Question 3.3.e: Briefly discuss possible reasons for the good performance of the best setup.**
+
+# Results
+
+**Question 4.1: Note down the mean squared error (MSE) for your best performing linear and non-parametric model.**
+
+**Question 4.2: Discuss the performance difference of the linear and non-parametric method. Does the performance difference meet your expectations?**
+
+**Question 4.3: Is one of the assigned methods an appropriate choice for the dataset and question at hand? Why, or why not, based on shortcomings or advantages of the linear and non-parametric method? Suggest alternatives to address the shortcomings of your method.**
+
+**Question 4.4: Explain how the different features in one of your models contribute to the prediction. Provide at least one statistical/data-driven argument, and one argument based on your Earth system science understanding.**
+
+**Question 4.5: Assume that you would take your trained statistical model, and would apply it to actual Earth system science observations (or forecasts made by a different weather model in Group Project 4). How would you expect your model to perform? What could be done to further improve your model’s performance?**
+
+# Application to unseen data
+
+**Question 5.1: Use your linear and non-parametric model to obtain a prediction for the „test“ dataset, for which no target values („Y’s“) are provided. Submit your predictions.**
+
+**Question 5.2: Please give an estimate of the mean squared error (MSE) you are expecting your model to achieve for the prediction of the unseen test data. Justify your estimate briefly.**
+
+# References
