@@ -1,0 +1,13 @@
+name: r-DADA-proj
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - r-essentials
+  - r-irkernel
+  - r-base=4.4.3
+  - r-rcolorbrewer
+  - r-raster
+  - r-ncdf4
+  - r-rworldmap

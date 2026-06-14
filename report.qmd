@@ -2,7 +2,7 @@
 title: "Estimation of forced climate change from historical climate
 simulations using ridge regression and boosted trees"
 subtitle: "Group project for the course Introduction to Advanced Data Analytics"
-format: 
+format:
   pdf:
     fig-format: png
     number-sections: true
@@ -31,13 +31,20 @@ cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
 
 **Question 2.1.a: What is the key idea (that is, theoretical basis) behind your method?**
 
+Ridge regression is a form of regularization. Regularization methods impose a penalty on large coefficients, which reduces the fit of the model
+to the training data (increases bias), but ideally thereby increases the model's generalizability/applicability to unseen data (decreases variance).
+
 **Question 2.1.b: In which circumstances is it advisable to apply your method?**
+
+if you have a lot of highly correlated predictors (e.g., variable values in pixels)
 
 **Question 2.1.c: In which cases may your method fail?**
 
 **Question 2.1.d: How does your method guard against overfitting?**
 
 **Question 2.1.e: Which are the tuning parameters of your method?**
+
+$\lambda$
 
 ## Boosted trees
 
@@ -61,9 +68,15 @@ cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
 
 **Question 3.2.a: How did you setup the predictor variables for the model? Suggest at least two different setups/combinations of explanatory variables/features that you consider. Argue for the specific choices.**
 
+use all predictors since ridge regression will push unimportant cells towards 0 anyways
+
 **Question 3.2.b: Which hyperparameter(s) do you optimize?**
 
+$\lambda$
+
 **Question 3.2.c: Describe your tuning procedure: How was data split (CV, train/test-split), and why did you choose this splitting? Consider the special characteristics of your data set.**
+
+CV across models/ensemble members/years
 
 **Question 3.2.d: Which setup did perform best? Of this setup, what where the best performing hyperparameter values?**
 
