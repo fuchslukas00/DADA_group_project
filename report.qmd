@@ -2,14 +2,14 @@
 title: "Estimation of forced climate change from historical climate
 simulations using ridge regression and boosted trees"
 subtitle: "Group project for the course Introduction to Advanced Data Analytics"
-format: 
+format:
   pdf:
     fig-format: png
     number-sections: true
     toc: true
 author:
   - "Niklas (xxxx)"
-  - "Lukas (xxxx)"
+  - "Lukas (3787705)"
   - "Nina Preußler (3795721)"
 bibliography: references.bib
 csl: https://www.zotero.org/styles/apa # citation style
@@ -21,9 +21,33 @@ csl: https://www.zotero.org/styles/apa # citation style
 
 **Question 1.a: What is the dataset and the prediction problem about scientifically?**
 
+prediction problem:
+- forced climate change refers to the changes in the climate system that are caused by external factors, such as greenhouse gas emissions, land use changes, and volcanic eruptions. Internal variability refers to the natural fluctuations in the climate system that occur without any external forcing, such as El Niño-Southern Oscillation (ENSO).
+- climate system has a lot of internal variability, which makes it hard to detect the forced climate change signal in observations, especially on regional scales and on short time scales (e.g., decadal)
+- it is of interest to detect, how much a climate state results from forced climate change and how much it results from internal variability 
+
+- Can we use historical climate simulations to learn the relationship between the forced climate change signal and the internal variability, and thereby predict the forced climate change signal in observations?
+
+aim:
+- predict forced global mean temperature response
+- predict year, from which a annual temperature map comes from (as an indicator of how much climate change has already happened)
+- input for prediction is global mean annual temperature map from a specific year 
+
+dataset:
+- annual global temperature maps 
+- matrix of n*p
+  - p = 2592 grid cell predictors
+  - n = number of training samples
+- maps resulting from an ensemble of 7 climate models ("CanESM2", "CESM1-CAM5", "CSIRO-Mk3-6-0", "EC-EARTH", "GFDL-CM3", "GFDL-ESM2M", "MPI-ESM") 
+  - 10 simulations per model, each simulation covering xx - 2030 
+
 cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
 
 **Question 1.b: What’s the data source and what does that tell you about the type of the data?**
+
+- data source: historical (??correct term, as data is going until 2030??) climate simulations
+- type of data: simulated data, not real-world observations > simulations themselves already introduce uncertainty
+
 
 # Methodological background
 
@@ -31,25 +55,111 @@ cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
 
 **Question 2.1.a: What is the key idea (that is, theoretical basis) behind your method?**
 
+Ridge regression is a form of regularization. Regularization methods impose a penalty on large coefficients, which reduces the fit of the model to the training data (increases bias), but ideally thereby increases the model's generalizability/applicability to unseen data (decreases variance).
+
+- aim: make the regression more stable and less prone to overfitting 
+
+$$
+\hat{\beta}^{\text{ridge}}
+=
+\arg\min_{\beta}
+\left\{
+RSS + \lambda \sum_{j=1}^{p} \beta_j^2
+\right\}
+\;=\;
+\arg\min_{\beta}
+\left\{
+RSS
+\right\}
+\quad \text{s.t.} \quad
+\sum_{j=1}^{p} \beta_j^2 \leq s
+$$
+
+
+
+
+
 **Question 2.1.b: In which circumstances is it advisable to apply your method?**
+
+- large number of predictors
+  - too much  flexibility
+  - fits noise
+- if you have a lot of highly correlated predictors (e.g., variable values in pixels)
+  - many nearly equivalent solutions with similar RSS, but very different coefficients
+  - unstable model
+- ridge regression can help to prevent this by adding a penalty term to the RSS that discourages large coefficients.
 
 **Question 2.1.c: In which cases may your method fail?**
 
+- in cases, where relationship between predictors and target variable is non-linear, ridge regression may not perform well, since it is a linear method
+- when only few predictors are really important
+  - ridge regression shrinks all coefficients towards zero, but does not set any of them exactly to zero. lasso regression might be more suitable in such cases
+
 **Question 2.1.d: How does your method guard against overfitting?**
 
+- it is exactly designed to avoid overfitting 
+- by adding a penalty term to the RSS that discourages large coefficients, ridge regression reduces the flexibility of the model and thereby reduces the risk of overfitting to the training data.
+- the tuning parameter $\lambda$ controls the strength of the penalty, and can be optimized to find the best balance between bias and variance.
+   - the bigger $\lambda$, the stronger the penalty, and the more the coefficients are shrunk towards zero, which reduces the flexibility of the model and increases bias, but decreases variance and the risk of overfitting.
+
 **Question 2.1.e: Which are the tuning parameters of your method?**
+
+- the tuning parameter $\lambda$ controls the strength of the penalty, and can be optimized to find the best balance between bias and variance.
+   - the bigger $\lambda$, the stronger the penalty, and the more the coefficients are shrunk towards zero, which reduces the flexibility of the model and increases bias, but decreases variance and the risk of overfitting.
+
+$\lambda$
 
 ## Boosted trees
 
 **Question 2.2.a: What is the key idea (that is, theoretical basis) behind your method?**
 
+- Boosting is an ensemble learning method 
+- ensemble methods improve predictions by combining the predictions of multiple models, and thereby reducing the variance of the predictions.
+- Boosting is a specific type of ensemble method, where the models are trained sequentially
+- The key idea is that each new model focuses on the errors (residuals) made by the current ensemble, thereby gradually improving the predictions.
+- In boosted trees, the individual models are typically small decision trees (weak learners), which are added one after another.
+- final prediction is a weighted sum of all individual tree predictions
+
+
 **Question 2.2.b: In which circumstances is it advisable to apply your method?**
+
+- suitable for complex and non-linear relationships between predictors and target variable
+- can handle a large number of predictors and interactions between them
+- can be used for both regression and classification problems
+- 
 
 **Question 2.2.c: In which cases may your method fail?**
 
+- small datasets
+- noisy data
+- if the relationship between predictors and target variable is linear, simpler linear models may perform better and be more interpretable
+- if interpretability is a concern, boosted trees can be more difficult to interpret than linear models, since they are an ensemble of many individual trees, and it can be hard to understand how the different trees contribute to the final prediction.
+- extrapolation can be a problem, as tree models generally do not extrapolate well beyond the range of the training data, since they are based on splits of the predictor space
+
+
+
 **Question 2.2.d: How does your method guard against overfitting?**
 
+- Boosting can be prone to overfitting, especially if the number of trees is too large or if the trees are too deep.
+- To guard against overfitting, several techniques can be used:
+  - early stopping: stop adding trees when the performance on a validation set starts to degrade
+  - shrinkage (learning rate): reduce the contribution of each tree to the final prediction, which can help to prevent overfitting by making the model more conservative
+  - limiting the depth of the trees: shallow trees are less likely to overfit than deep trees, since they have fewer splits and therefore less flexibility
+  - subsampling: using only a random subset of the training data for each tree can help to reduce overfitting by introducing randomness into the model and reducing the correlation between the trees.
+
 **Question 2.2.e: Which are the tuning parameters of your method?**
+
+- number of trees
+  - smaller number > less flexible model > less prone to overfitting, but higher bias
+  - larger number > more flexible model > more prone to overfitting, but lower bias
+
+- learning rate / shrinkage parameter (how much each tree contributes to the final prediction)
+  - smaller learning rate > more conservative model (slow learning, small corrections) > less prone to overfitting, but higher bias
+  - larger learning rate > more aggressive model (fast learning, large corrections) > more prone to overfitting, but lower bias
+
+- tree/interaction depth (maximum depth of the individual trees)
+  - smaller tree depth > less flexible model > less prone to overfitting, but higher bias
+  - larger tree depth > more flexible model > more prone to overfitting, but lower bias
 
 # Model set-up and tuning
 
@@ -61,9 +171,15 @@ cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
 
 **Question 3.2.a: How did you setup the predictor variables for the model? Suggest at least two different setups/combinations of explanatory variables/features that you consider. Argue for the specific choices.**
 
+use all predictors since ridge regression will push unimportant cells towards 0 anyways
+
 **Question 3.2.b: Which hyperparameter(s) do you optimize?**
 
+$\lambda$
+
 **Question 3.2.c: Describe your tuning procedure: How was data split (CV, train/test-split), and why did you choose this splitting? Consider the special characteristics of your data set.**
+
+CV across models/ensemble members/years
 
 **Question 3.2.d: Which setup did perform best? Of this setup, what where the best performing hyperparameter values?**
 
