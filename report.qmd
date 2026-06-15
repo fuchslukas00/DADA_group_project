@@ -24,22 +24,22 @@ csl: https://www.zotero.org/styles/apa # citation style
 prediction problem:
 - forced climate change refers to the changes in the climate system that are caused by external factors, such as greenhouse gas emissions, land use changes, and volcanic eruptions. Internal variability refers to the natural fluctuations in the climate system that occur without any external forcing, such as El Niño-Southern Oscillation (ENSO).
 - climate system has a lot of internal variability, which makes it hard to detect the forced climate change signal in observations, especially on regional scales and on short time scales (e.g., decadal)
-- it is of interest to detect, how much a climate state results from forced climate change and how much it results from internal variability 
+- it is of interest to detect, how much a climate state results from forced climate change and how much it results from internal variability
 
 - Can we use historical climate simulations to learn the relationship between the forced climate change signal and the internal variability, and thereby predict the forced climate change signal in observations?
 
 aim:
 - predict forced global mean temperature response
 - predict year, from which a annual temperature map comes from (as an indicator of how much climate change has already happened)
-- input for prediction is global mean annual temperature map from a specific year 
+- input for prediction is global mean annual temperature map from a specific year
 
 dataset:
-- annual global temperature maps 
+- annual global temperature maps
 - matrix of n*p
   - p = 2592 grid cell predictors
   - n = number of training samples
-- maps resulting from an ensemble of 7 climate models ("CanESM2", "CESM1-CAM5", "CSIRO-Mk3-6-0", "EC-EARTH", "GFDL-CM3", "GFDL-ESM2M", "MPI-ESM") 
-  - 10 simulations per model, each simulation covering xx - 2030 
+- maps resulting from an ensemble of 7 climate models ("CanESM2", "CESM1-CAM5", "CSIRO-Mk3-6-0", "EC-EARTH", "GFDL-CM3", "GFDL-ESM2M", "MPI-ESM")
+  - 10 simulations per model, each simulation covering xx - 2030
 
 cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
 
@@ -57,7 +57,7 @@ cite like this: @barnes_viewing_2019 or this [@sippel_climate_2020]
 
 Ridge regression is a form of regularization. Regularization methods impose a penalty on large coefficients, which reduces the fit of the model to the training data (increases bias), but ideally thereby increases the model's generalizability/applicability to unseen data (decreases variance).
 
-- aim: make the regression more stable and less prone to overfitting 
+- aim: make the regression more stable and less prone to overfitting
 
 $$
 \hat{\beta}^{\text{ridge}}
@@ -97,7 +97,7 @@ $$
 
 **Question 2.1.d: How does your method guard against overfitting?**
 
-- it is exactly designed to avoid overfitting 
+- it is exactly designed to avoid overfitting
 - by adding a penalty term to the RSS that discourages large coefficients, ridge regression reduces the flexibility of the model and thereby reduces the risk of overfitting to the training data.
 - the tuning parameter $\lambda$ controls the strength of the penalty, and can be optimized to find the best balance between bias and variance.
    - the bigger $\lambda$, the stronger the penalty, and the more the coefficients are shrunk towards zero, which reduces the flexibility of the model and increases bias, but decreases variance and the risk of overfitting.
@@ -113,7 +113,7 @@ $\lambda$
 
 **Question 2.2.a: What is the key idea (that is, theoretical basis) behind your method?**
 
-- Boosting is an ensemble learning method 
+- Boosting is an ensemble learning method
 - ensemble methods improve predictions by combining the predictions of multiple models, and thereby reducing the variance of the predictions.
 - Boosting is a specific type of ensemble method, where the models are trained sequentially
 - The key idea is that each new model focuses on the errors (residuals) made by the current ensemble, thereby gradually improving the predictions.
@@ -126,7 +126,7 @@ $\lambda$
 - suitable for complex and non-linear relationships between predictors and target variable
 - can handle a large number of predictors and interactions between them
 - can be used for both regression and classification problems
-- 
+-
 
 **Question 2.2.c: In which cases may your method fail?**
 
@@ -179,7 +179,14 @@ $\lambda$
 
 **Question 3.2.c: Describe your tuning procedure: How was data split (CV, train/test-split), and why did you choose this splitting? Consider the special characteristics of your data set.**
 
-CV across models/ensemble members/years
+CV across models/(ensemble members)/years
+- blocked years (rather than random years) - if you sp
+- random models
+- random simulations (ensemble members) within models
+--> test all three
+
+all three put slightly different focus: e.g., blocking models tells us how applicable our methods are for new models (how sensitive to model)
+
 
 **Question 3.2.d: Which setup did perform best? Of this setup, what where the best performing hyperparameter values?**
 
@@ -204,6 +211,8 @@ CV across models/ensemble members/years
 **Question 4.2: Discuss the performance difference of the linear and non-parametric method. Does the performance difference meet your expectations?**
 
 **Question 4.3: Is one of the assigned methods an appropriate choice for the dataset and question at hand? Why, or why not, based on shortcomings or advantages of the linear and non-parametric method? Suggest alternatives to address the shortcomings of your method.**
+
+advantage of ridge regression is that you get this map which shows you which regions contribute how (and how much)
 
 **Question 4.4: Explain how the different features in one of your models contribute to the prediction. Provide at least one statistical/data-driven argument, and one argument based on your Earth system science understanding.**
 
